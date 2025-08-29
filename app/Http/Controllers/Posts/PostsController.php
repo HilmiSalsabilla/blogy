@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Posts;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Post\PostModel;
+use App\Models\Post\Category;
+use App\Models\User;
 
 class PostsController extends Controller
 {
@@ -61,7 +64,19 @@ class PostsController extends Controller
 
     public function single($id) {
         $single = PostModel::findorFail($id);
+        $user = User::findorFail($single->user_id);
 
-        return view('posts.single', compact('single'));
+        $anotherPosts = PostModel::inRandomOrder()->take(3)->get();
+
+        $categories = DB::table('categories')
+                    ->join('posts', 'posts.category', '=', 'categories.name')
+                    ->select('categories.name AS name', 'categories.id AS id', DB::raw('COUNT(posts.category) AS total'))
+                    ->groupBy('posts.category')
+                    ->get();
+        // $categories = Category::withCount('posts')->get();
+
+        $morePosts = PostModel::inRandomOrder()->take(4)->get();
+
+        return view('posts.single', compact('single', 'user', 'anotherPosts', 'categories', 'morePosts'));
     }
 }

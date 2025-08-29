@@ -19,7 +19,14 @@ class PostModel extends Model
         'category',
         'user_id',
         'user_name',
+        'created_at',
+        'updated_at',
     ];
 
     public $timestamps = false;
+
+    // Relasi ke Category
+    // public function category() {
+    //     return $this->belongsTo(Category::class, 'category_id');
+    // }
 }

@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [ HomeController::class, 'index'])->name('home');
 
 Route::prefix('posts')->group(function () {
     Route::get('/index', [PostsController::class, 'index'])->name('posts.index');
@@ -32,6 +32,7 @@ Route::prefix('posts')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::post('/comment-store', [PostsController::class, 'storeComment'])->name('posts.comment.store');
         Route::get('/create-post', [PostsController::class, 'createPost'])->name('posts.create');
-        Route::post('/store', [PostsController::class, 'store'])->name('posts.store');
+        Route::post('/post-store', [PostsController::class, 'storePost'])->name('posts.store');
+        Route::post('/post-delete/{id}', [PostsController::class, 'deletePost'])->name('posts.delete');
     });
 });

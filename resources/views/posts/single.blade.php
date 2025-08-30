@@ -33,8 +33,23 @@
                         <p>{!! nl2br(e($single->description)) !!}</p>
                     </div>
 
-                    <div class="pt-5">
-                        <p>Categories: <a href="#">{{ $single->category }}</a></p>
+                    {{-- Category & Delete --}}
+                    <div class="pt-4 d-flex justify-content-between align-items-center border-top mt-4 pt-3">
+                        <p class="mb-0">
+                            Category:
+                            <a href="#" class="text-decoration-none">{{ $single->category }}</a>
+                        </p>
+
+                        @auth
+                            @if(Auth::id() === $single->user_id)
+                                <form action="{{ route('posts.delete', $single->id) }}" 
+                                    method="POST" 
+                                    onsubmit="return confirm('Are you sure you want to delete this post?')">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete My Post</button>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
 
                     {{-- Comments --}}

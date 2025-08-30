@@ -1,33 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- Hero Section --}}
-    {{-- <div class="hero overlay inner-page py-5" style="margin-top: -24px; background-color: #214252">
-        <div class="container">
-            <div class="row align-items-center justify-content-center text-center pt-5">
-                <div class="col-lg-6">
-                    <h1 class="heading text-white mb-3" data-aos="fade-up">Create Post</h1>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
     {{-- Form Section --}}
     <section class="section">
         <div class="container">
             <div class="row justify-content-center">
                 {{-- <div class="col-md-10 col-lg-8"> --}}
+                    {{-- Flash Message --}}
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+
                     <div class="comment-form-wrap bg-white p-5 shadow-sm rounded">
                         <h3 class="mb-4">Create New Blog Post</h3>
-
-                        {{-- Flash Message --}}
-                        @if(session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
 
                         {{-- Form Create Post --}}
                         <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+
+                            {{-- Hidden User Info --}}
+                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                            <input type="hidden" name="user_name" value="{{ Auth::user()->name }}">
 
                             {{-- Title --}}
                             <div class="form-group mb-3">

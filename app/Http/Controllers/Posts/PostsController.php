@@ -119,7 +119,7 @@ class PostsController extends Controller
         return view('posts.create-post', compact('categories'));
     }
 
-    public function store(Request $request) {
+    public function storePost(Request $request) {
         // Upload gambar
         $imageName = null;
         if ($request->hasFile('image')) {
@@ -139,5 +139,20 @@ class PostsController extends Controller
 
         // Redirect ke halaman home atau single post
         return redirect()->route('posts.index')->with('success', 'Post has been created successfully!');
+    }
+    
+    public function deletePost($id) {
+        $post = PostModel::findOrFail($id);
+
+        // cek apakah user adalah pemilik post
+        if (auth()->id() !== $post->user_id) {
+            return redirect()->route('posts.index')
+                ->with('error', 'You are not authorized to delete this post.');
+        }
+
+        // hapus data
+        $post->delete();
+
+        return redirect()->route('posts.index')->with('danger', 'Post deleted successfully.');
     }
 }

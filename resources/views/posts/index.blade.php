@@ -11,7 +11,7 @@
 						<div class="featured-img" style="background-image: url('{{asset('assets/images/'. $post->image . '')}}');"></div>
 						<div class="text">
 							<span class="date">{{ \Carbon\Carbon::parse($post->created_at)->format('d M Y H:i') }}</span>
-							<h2>{{ \Illuminate\Support\Str::words($post->title, 20, ' ...') }}</h2>
+							<h2>{{ Str::words($post->title, 20, ' ...') }}</h2>
 						</div>
 					</a>
                     @endforeach
@@ -23,7 +23,7 @@
 						<div class="featured-img" style="background-image: url('{{asset('assets/images/'. $justPost->image . '')}}');"></div>
 						<div class="text">
 							<span class="date">{{ \Carbon\Carbon::parse($justPost->created_at)->format('d M Y H:i') }}</span>
-							<h2>{{ \Illuminate\Support\Str::words($justPost->title, 20, ' ...') }}</h2>
+							<h2>{{ Str::words($justPost->title, 20, ' ...') }}</h2>
 						</div>
 					</a>
 					@endforeach
@@ -35,7 +35,7 @@
 						<div class="featured-img" style="background-image: url('{{asset('assets/images/'. $twoPost->image . '')}}');"></div>
 						<div class="text">
 							<span class="date">{{ \Carbon\Carbon::parse($twoPost->created_at)->format('d M Y H:i') }}</span>
-							<h2>{{ \Illuminate\Support\Str::words($twoPost->title, 20, ' ...') }}</h2>
+							<h2>{{ Str::words($twoPost->title, 20, ' ...') }}</h2>
 						</div>
 					</a>
 					@endforeach
@@ -67,10 +67,10 @@
 								<span class="date">{{ \Carbon\Carbon::parse($busPost->created_at)->format('d M Y H:i') }}</span>
 								<h2>
 									<a href="{{ route('posts.single', $busPost->id) }}">
-										{{ \Illuminate\Support\Str::words($busPost->title, 20, ' ...') }}
+										{{ Str::words($busPost->title, 20, ' ...') }}
 									</a>
 								</h2>
-								<p>{{ \Illuminate\Support\Str::words($busPost->description, 20, ' ...') }}</p>
+								<p>{{ Str::words($busPost->description, 20, ' ...') }}</p>
 								<p><a href="{{ route('posts.single', $busPost->id) }}" class="btn btn-sm btn-outline-primary">Read More</a></p>
 							</div>
 						</div>
@@ -85,10 +85,10 @@
 							<span class="date">{{ \Carbon\Carbon::parse($busTwoPost->created_at)->format('d M Y H:i') }}</span>
 							<h3>
 								<a href="{{ route('posts.single', $busTwoPost->id) }}">
-									{{ \Illuminate\Support\Str::words($busTwoPost->title, 20, ' ...') }}
+									{{ Str::words($busTwoPost->title, 20, ' ...') }}
 								</a>
 							</h3>
-							<p>{{ \Illuminate\Support\Str::words($busTwoPost->description, 20, ' ...') }}</p>
+							<p>{{ Str::words($busTwoPost->description, 20, ' ...') }}</p>
 							<a href="{{ route('posts.single', $busTwoPost->id) }}">Continue Reading</a>
 						</li>
 						@endforeach
@@ -112,10 +112,10 @@
 						<span class="date">{{ \Carbon\Carbon::parse($randPost->created_at)->format('d M Y H:i') }}</span>
 						<h2>
 							<a href="{{ route('posts.single', $randPost->id) }}">
-								{{ \Illuminate\Support\Str::words($randPost->title, 20, ' ...') }}
+								{{ Str::words($randPost->title, 20, ' ...') }}
 							</a>
 						</h2>
-						<p>{{ \Illuminate\Support\Str::words($randPost->description, 20, ' ...') }}</p>
+						<p>{{ Str::words($randPost->description, 20, ' ...') }}</p>
 						<a href="{{ route('posts.single', $randPost->id) }}">Continue Reading</a>
 					</div>
 				</div>
@@ -145,8 +145,8 @@
 									<img src="{{asset('assets/images/'. $culPost->image . '')}}" alt="Image" class="img-fluid">
 								</a>
 								<span class="date">{{ \Carbon\Carbon::parse($culPost->created_at)->format('d M Y H:i') }}</span>
-								<h2><a href="{{ route('posts.single', $culPost->id) }}">{{ \Illuminate\Support\Str::words($culPost->title, 20, ' ...') }}</a></h2>
-								<p>{{ \Illuminate\Support\Str::words($culPost->description, 20, ' ...') }}</p>
+								<h2><a href="{{ route('posts.single', $culPost->id) }}">{{ Str::words($culPost->title, 20, ' ...') }}</a></h2>
+								<p>{{ Str::words($culPost->description, 20, ' ...') }}</p>
 								<p><a href="{{ route('posts.single', $culPost->id) }}" class="btn btn-sm btn-outline-primary">Read More</a></p>
 							</div>
 						</div>
@@ -160,7 +160,7 @@
 						<li>
 							<span class="date">{{ \Carbon\Carbon::parse($culTwoPost->created_at)->format('d M Y H:i') }}</span>
 							<h3><a href="{{ route('posts.single', $culTwoPost->id) }}">{{ $culTwoPost->title }}</a></h3>
-							<p>{{ \Illuminate\Support\Str::words($culTwoPost->description, 20, ' ...') }}</p>
+							<p>{{ Str::words($culTwoPost->description, 20, ' ...') }}</p>
 							<a href="{{ route('posts.single', $culTwoPost->id) }}">Continue Reading</a>
 						</li>
 						@endforeach
@@ -187,13 +187,13 @@
 					<div class="post-entry-alt">
 						<a href="{{ route('posts.single', $polPost->id) }}" class="img-link"><img src="{{asset('assets/images/'. $polPost->image . '')}}" alt="Image" class="img-fluid"></a>
 						<div class="excerpt">
-							<h2><a href="{{ route('posts.single', $polPost->id) }}">{{ \Illuminate\Support\Str::words($polPost->title, 20, ' ...') }}</a></h2>
+							<h2><a href="{{ route('posts.single', $polPost->id) }}">{{ Str::words($polPost->title, 20, ' ...') }}</a></h2>
 							<div class="post-meta align-items-center text-left clearfix">
 								{{-- <figure class="author-figure mb-0 me-3 float-start"><img src="{{asset('assets/images/'. $polPost->image . '')}}" alt="Image" class="img-fluid"></figure> --}}
 								{{-- <span class="d-inline-block mt-1">By {{ $polPost->user_name }}</span> --}}
 								<span>{{ \Carbon\Carbon::parse($polPost->created_at)->format('d M Y H:i') }}</span>
 							</div>
-							<p>{{ \Illuminate\Support\Str::words($polPost->description, 20, ' ...') }}</p>
+							<p>{{ Str::words($polPost->description, 20, ' ...') }}</p>
 							<a href="{{ route('posts.single', $polPost->id) }}">Continue Reading</a>
 						</div>
 					</div>

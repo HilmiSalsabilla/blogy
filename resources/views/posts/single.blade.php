@@ -3,7 +3,7 @@
 @section('content')
     {{-- Hero Section --}}
     <div class="site-cover site-cover-sm same-height overlay single-page"
-         style="background-image: url('{{ asset('assets/images/' . $single->image) }}'); margin-top:-25px">
+         style="background-image: url('{{ asset('assets/images/' . $single->image. '') }}'); margin-top:-25px">
         <div class="container">
             <div class="row same-height justify-content-center">
                 <div class="col-md-6">
@@ -39,50 +39,53 @@
 
                     {{-- Comments --}}
                     <div class="pt-5 comment-wrap">
-                        <h3 class="mb-5 heading">6 Comments</h3>
+                        <h3 class="mb-5 heading">{{ $commentsCount }} Comment</h3>
                         <ul class="comment-list">
-                            <li class="comment">
-                                <div class="vcard">
-                                    <img src="{{ asset('assets/images/person_1.jpg') }}" alt="Image placeholder">
-                                </div>
-                                <div class="comment-body">
-                                    <h3>Jean Doe</h3>
-                                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum
-                                        necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure!
-                                        Quam voluptas earum impedit necessitatibus, nihil?
-                                    </p>
-                                    <p><a href="#" class="reply rounded">Reply</a></p>
-                                </div>
-                            </li>
+                            @forelse ($comments as $comment)
+                                <li class="comment">
+                                    <div class="vcard">
+                                        <img src="{{ asset('assets/user_images/'. $comment->image) }}" alt="Image placeholder">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>{{ $comment->user_name }}</h3>
+                                        <div class="meta">
+                                            {{ \Carbon\Carbon::parse($comment->created_at)->format('d M Y H:i') }}
+                                        </div>
+                                        <p>{{ $comment->comment }}</p>
+                                    </div>
+                                </li>
+                            @empty
+                                <p style="text-align: center">There is no comment in this post yet.</p>
+                            @endforelse
                         </ul>
 
                         {{-- Comment Form --}}
-                        <div class="comment-form-wrap pt-5">
-                            <h3 class="mb-5">Leave a comment</h3>
-                            <form action="#" class="p-5 bg-light">
-                                <div class="form-group">
-                                    <label for="name">Name *</label>
-                                    <input type="text" class="form-control" id="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email *</label>
-                                    <input type="email" class="form-control" id="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="website">Website</label>
-                                    <input type="url" class="form-control" id="website">
-                                </div>
-                                <div class="form-group">
-                                    <label for="message">Message</label>
-                                    <textarea id="message" cols="30" rows="10" class="form-control"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Post Comment" class="btn btn-primary">
-                                </div>
-                            </form>
-                        </div>
+                        @auth
+                            <div class="comment-form-wrap pt-5">
+                                <h3 class="mb-5">Leave a comment</h3>
+
+                                {{-- Flash Message --}}
+                                @if(Session::has('success'))
+                                    <div class="alert alert-success">{{ Session::get('success') }}</div>
+                                @endif
+
+                                <form action="{{ route('posts.comment.store') }}" method="POST" class="p-5 bg-light">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{ $single->id }}">
+                                    <div class="form-group">
+                                        <label for="comment">Comment</label>
+                                        <textarea name="comment" cols="30" rows="5" class="form-control" required></textarea>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <input type="submit" value="Post Comment" class="btn btn-sm btn-primary">
+                                    </div>
+                                </form>
+                            </div>
+                        @else
+                            <p style="text-align: center">
+                                You must <a href="{{ route('login') }}">login</a> to leave a comment.
+                            </p>
+                        @endauth
                     </div>
                 </div>
 
@@ -114,7 +117,7 @@
                                             <img src="{{ asset('assets/images/' . $post->image) }}"
                                                  alt="{{ $post->title }}" class="me-4 rounded">
                                             <div class="text">
-                                                <h4>{{ \Illuminate\Support\Str::words($post->title, 20, ' ...') }}</h4>
+                                                <h4>{{ Str::words($post->title, 20, ' ...') }}</h4>
                                                 <div class="post-meta">
                                                     <span class="mr-2">
                                                         {{ \Carbon\Carbon::parse($post->created_at)->format('d M Y H:i') }}
@@ -163,10 +166,10 @@
                             <span class="date">{{ \Carbon\Carbon::parse($post->created_at)->format('M d, Y') }}</span>
                             <h2>
                                 <a href="{{ route('posts.single', $post->id) }}">
-                                    {{ \Illuminate\Support\Str::words($post->title, 20, ' ...') }}
+                                    {{ Str::words($post->title, 20, ' ...') }}
                                 </a>
                             </h2>
-                            <p>{{ \Illuminate\Support\Str::words($post->description, 20, ' ...') }}</p>
+                            <p>{{ Str::words($post->description, 20, ' ...') }}</p>
                             <p>
                                 <a href="{{ route('posts.single', $post->id) }}">Continue Reading</a>
                             </p>

@@ -5,23 +5,22 @@ namespace App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Comment extends Model
 {
     use HasFactory;
 
-    protected $table = 'categories';
+    protected $table = 'comments';
 
     protected $fillable = [
         'id',
-        'name',
+        'user_id',
+        'user_name',
+        'user_email',
+        'image',
+        'post_id',
+        'comment',
         'created_at',
-        'updated_at',
     ];
 
     public $timestamps = false;
-
-    // Relasi ke Post
-    // public function posts() {
-    //     return $this->hasMany(PostModel::class, 'category_id');
-    // }
 }

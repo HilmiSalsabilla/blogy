@@ -222,6 +222,19 @@
     	</div>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let flashMessage = document.getElementById("flash-message");
+            if (flashMessage) {
+                setTimeout(() => {
+                    flashMessage.classList.remove("show"); // hilangkan .show
+                    flashMessage.classList.add("fade");    // tambahkan efek fade
+                    setTimeout(() => flashMessage.remove(), 500); // hapus dari DOM
+                }, 3000); // 3 detik
+            }
+        });
+    </script>
+
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/tiny-slider.js') }}"></script>
 

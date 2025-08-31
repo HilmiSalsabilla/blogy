@@ -2,17 +2,21 @@
 
 @section('content')
 
-	<div class="container">
-		@if(session('success'))
-			<div class="alert alert-success">{{ session('success') }}</div>
-		@endif
-	</div>
-
-	<div class="container">
-		@if(session('danger'))
-			<div class="alert alert-danger">{{ session('danger') }}</div>
-		@endif
-	</div>
+	@if(Session::has('success'))
+		<div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-message">
+			{{ Session::get('success') }}
+		</div>
+	@endif
+	@if(Session::has('error'))
+		<div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash-message">
+			{{ Session::get('error') }}
+		</div>
+	@endif
+	@if(Session::has('danger'))
+		<div class="alert alert-danger alert-dismissible fade show" role="alert" id="flash-message">
+			{{ Session::get('danger') }}
+		</div>
+	@endif
 
     <!-- Start retroy layout blog posts -->
 	<section class="section bg-light">

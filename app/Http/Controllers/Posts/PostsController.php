@@ -155,4 +155,24 @@ class PostsController extends Controller
 
         return redirect()->route('posts.index')->with('danger', 'Post deleted successfully.');
     }
+
+    public function editPost($id) {
+        $post = PostModel::findOrFail($id);
+
+        return view('posts.edit-post', compact('post'));
+    }
+
+    public function updatePost(Request $request, $id) {
+        $post = PostModel::findOrFail($id);
+
+        // update data
+        $post->update([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'category'    => $request->category,
+        ]);
+
+        return redirect()->route('posts.single', $post->id)
+            ->with('success', 'Post updated successfully.');
+    }
 }

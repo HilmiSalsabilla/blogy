@@ -18,7 +18,7 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('posts/index');
 });
 
 Auth::routes();
@@ -34,5 +34,7 @@ Route::prefix('posts')->group(function () {
         Route::get('/create-post', [PostsController::class, 'createPost'])->name('posts.create');
         Route::post('/post-store', [PostsController::class, 'storePost'])->name('posts.store');
         Route::post('/post-delete/{id}', [PostsController::class, 'deletePost'])->name('posts.delete');
+        Route::get('/post-edit/{id}', [PostsController::class, 'editPost'])->name('posts.edit');
+        Route::post('/post-update/{id}', [PostsController::class, 'updatePost'])->name('posts.update');
     });
 });

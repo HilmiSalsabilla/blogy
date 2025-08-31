@@ -7,8 +7,10 @@
             <div class="row justify-content-center">
                 {{-- <div class="col-md-10 col-lg-8"> --}}
                     {{-- Flash Message --}}
-                    @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @if(Session::has('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-message">
+                            {{ Session::get('success') }}
+                        </div>
                     @endif
 
                     <div class="comment-form-wrap bg-white p-5 shadow-sm rounded">

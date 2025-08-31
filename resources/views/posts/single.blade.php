@@ -33,24 +33,45 @@
                         <p>{!! nl2br(e($single->description)) !!}</p>
                     </div>
 
-                    {{-- Category & Delete --}}
+                    {{-- Category & Actions --}}
                     <div class="pt-4 d-flex justify-content-between align-items-center border-top mt-4 pt-3">
                         <p class="mb-0">
-                            Category:
+                            <strong>Category:</strong> 
                             <a href="#" class="text-decoration-none">{{ $single->category }}</a>
                         </p>
 
                         @auth
                             @if(Auth::id() === $single->user_id)
-                                <form action="{{ route('posts.delete', $single->id) }}" 
-                                    method="POST" 
-                                    onsubmit="return confirm('Are you sure you want to delete this post?')">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete My Post</button>
-                                </form>
+                                <div class="d-flex gap-2">
+                                    {{-- Edit --}}
+                                    <a href="{{ route('posts.edit', $single->id) }}" class="btn btn-warning btn-sm">
+                                        Edit My Post
+                                    </a>
+
+                                    {{-- Delete --}}
+                                    <form action="{{ route('posts.delete', $single->id) }}" 
+                                        method="POST" 
+                                        onsubmit="return confirm('Are you sure you want to delete this post?')">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete My Post</button>
+                                    </form>
+                                </div>
                             @endif
                         @endauth
                     </div>
+
+                    <br><br>
+
+                    @if(Session::has('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-message">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
+                    @if(Session::has('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flash-message">
+                            {{ Session::get('error') }}
+                        </div>
+                    @endif
 
                     {{-- Comments --}}
                     <div class="pt-5 comment-wrap">
@@ -78,12 +99,6 @@
                         @auth
                             <div class="comment-form-wrap pt-5">
                                 <h3 class="mb-5">Leave a comment</h3>
-
-                                {{-- Flash Message --}}
-                                @if(Session::has('success'))
-                                    <div class="alert alert-success">{{ Session::get('success') }}</div>
-                                @endif
-
                                 <form action="{{ route('posts.comment.store') }}" method="POST" class="p-5 bg-light">
                                     @csrf
                                     <input type="hidden" name="post_id" value="{{ $single->id }}">

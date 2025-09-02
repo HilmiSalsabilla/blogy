@@ -96,21 +96,21 @@ class PostsController extends Controller
     }
 
     public function storeComment(Request $request) {
-        $request->validate([
-            'post_id' => 'required|exists:posts,id',
-            'comment' => 'required|string|max:1000',
+        $validated = $request->validate([
+            'post_id'  => 'required|exists:posts,id',
+            'comment'  => 'required|string|max:1000',
         ]);
 
         Comment::create([
             'user_id'    => Auth::id(),
             'user_name'  => Auth::user()->name,
             'user_email' => Auth::user()->email,
-            'post_id'    => $request->post_id,
-            'comment'    => $request->comment,
+            'post_id'    => $validated['post_id'],
+            'comment'    => $validated['comment'],
         ]);
 
-        return redirect()->route('posts.single', $request->post_id)
-                        ->with('success', 'Your comment has been posted!');
+        return redirect()->route('posts.single', $validated['post_id'])
+            ->with('success', 'Your comment has been posted!');
     }
 
     public function createPost() {
@@ -120,7 +120,14 @@ class PostsController extends Controller
     }
 
     public function storePost(Request $request) {
-        // Upload gambar
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'category'    => 'required|string|max:100',
+            'description' => 'required|string|max:5000',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+        ]);
+
+        // Upload gambar jika ada
         $imageName = null;
         if ($request->hasFile('image')) {
             $imageName = time() . '_' . $request->image->getClientOriginalName();
@@ -129,16 +136,16 @@ class PostsController extends Controller
 
         // Simpan ke database
         PostModel::create([
-            'title'       => $request->title,
-            'category'    => $request->category,
-            'description' => $request->description,
+            'title'       => $validated['title'],
+            'category'    => $validated['category'],
+            'description' => $validated['description'],
             'image'       => $imageName,
             'user_id'     => Auth::id(),
             'user_name'   => Auth::user()->name,
         ]);
 
-        // Redirect ke halaman home atau single post
-        return redirect()->route('posts.index')->with('success', 'Post has been created successfully!');
+        return redirect()->route('posts.index')
+            ->with('success', 'Post has been created successfully!');
     }
     
     public function deletePost($id) {
@@ -158,21 +165,36 @@ class PostsController extends Controller
 
     public function editPost($id) {
         $post = PostModel::findOrFail($id);
+        $categories = Category::all();
 
-        return view('posts.edit-post', compact('post'));
+        return view('posts.edit-post', compact('post', 'categories'));
     }
 
     public function updatePost(Request $request, $id) {
         $post = PostModel::findOrFail($id);
 
-        // update data
-        $post->update([
-            'title'       => $request->title,
-            'description' => $request->description,
-            'category'    => $request->category,
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
+            'category'    => 'required|string|max:100',
         ]);
+
+        if (auth()->id() !== $post->user_id) {
+            return redirect()->route('posts.index')
+                ->with('error', 'You are not authorized to update this post.');
+        }
+
+        $post->update($validated);
 
         return redirect()->route('posts.single', $post->id)
             ->with('success', 'Post updated successfully.');
+    }
+
+    public function contact() {
+        return view('pages.contact');
+    }
+    
+    public function about() {
+        return view('pages.about');
     }
 }

@@ -57,12 +57,16 @@
                                 <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu mx-auto">
                                     <li class="active"><a href="{{ url('/') }}">Home</a></li>
                                     
-                                    <li><a href="category.html">Culture</a></li>
-                                    <li><a href="category.html">Business</a></li>
-                                    <li><a href="category.html">Politics</a></li>
-                                    <li><a href="{{ route('posts.create') }}">Create Post</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="{{ route('category.single', 'Culture') }}">Culture</a></li>
+                                    <li><a href="{{ route('category.single', 'Business') }}">Business</a></li>
+                                    <li><a href="{{ route('category.single', 'Politics') }}">Politics</a></li>
+                                    @auth
+                                        <li>
+                                            <a href="{{ route('posts.create') }}">Create Post</a>
+                                        </li>
+                                    @endauth
+                                    <li><a href="{{ route('pages.contact') }}">Contact Us</a></li>
+                                    <li><a href="{{ route('pages.about') }}">About Us</a></li>
                                     @guest
                                         @if (Route::has('login'))
                                             <li><a href="{{ route('login') }}">Login</a></li>

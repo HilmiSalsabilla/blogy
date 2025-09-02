@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Posts\PostsController;
+use App\Http\Controllers\Categories\CategoriesController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -17,14 +18,19 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', function () {
-    return view('posts/index');
-});
+// Route::get('/', function () {
+//     return view('posts/index');
+// });
 
 Auth::routes();
 
-Route::get('/home', [ HomeController::class, 'index'])->name('home');
+// Pages
+Route::get('/', [PostsController::class, 'index'])->name('welcome');
+Route::get('/home', [PostsController::class, 'index'])->name('home');
+Route::get('/contact', [PostsController::class, 'contact'])->name('pages.contact');
+Route::get('/about', [PostsController::class, 'about'])->name('pages.about');
 
+// Posts
 Route::prefix('posts')->group(function () {
     Route::get('/index', [PostsController::class, 'index'])->name('posts.index');
     Route::get('/single/{id}', [PostsController::class, 'single'])->name('posts.single');
@@ -37,4 +43,9 @@ Route::prefix('posts')->group(function () {
         Route::get('/post-edit/{id}', [PostsController::class, 'editPost'])->name('posts.edit');
         Route::post('/post-update/{id}', [PostsController::class, 'updatePost'])->name('posts.update');
     });
+});
+
+// Categories
+Route::prefix('categories')->group(function () {
+    Route::get('/category/{name}', [CategoriesController::class, 'category'])->name('category.single');
 });

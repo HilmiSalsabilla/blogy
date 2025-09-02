@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\Posts\PostsController;
 use App\Http\Controllers\Categories\CategoriesController;
 use App\Http\Controllers\HomeController;
@@ -48,4 +49,10 @@ Route::prefix('posts')->group(function () {
 // Categories
 Route::prefix('categories')->group(function () {
     Route::get('/category/{name}', [CategoriesController::class, 'category'])->name('category.single');
+});
+
+Route::prefix('users')->middleware(['auth'])->group(function () {
+    Route::get('/edit/{id}', [UsersController::class, 'editProfile'])->name('users.edit');
+    Route::post('/update/{id}', [UsersController::class, 'saveProfile'])->name('users.save');
+    Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('users.profile');
 });

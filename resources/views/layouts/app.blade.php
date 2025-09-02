@@ -18,6 +18,8 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/flaticon/font/flaticon.css') }}">
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 
@@ -81,6 +83,12 @@
                                             </a>
 
                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="{{ route('users.profile', Auth::user()->id) }}">
+                                                    My Profile
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('users.edit', Auth::user()->id) }}">
+                                                    Profile Update
+                                                </a>
                                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                                 document.getElementById('logout-form').submit();">
@@ -134,7 +142,8 @@
 							<li><a href="#"><span class="icon-dribbble"></span></a></li>
 						</ul>
 					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
+				</div>
+
 				<div class="col-lg-4 ps-lg-5">
 					<div class="widget">
 						<h3 class="mb-4">Company</h3>
@@ -155,68 +164,46 @@
 							<li><a href="#">Creative</a></li>
 						</ul>
 					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
+				</div>
+
 				<div class="col-lg-4">
 					<div class="widget">
 						<h3 class="mb-4">Recent Post Entry</h3>
 						<div class="post-entry-footer">
 							<ul>
-								<li>
-									<a href="">
-										<img src="{{ asset('assets/images/img_1_sq.jpg') }}" alt="Image placeholder" class="me-4 rounded">
-										<div class="text">
-											<h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-											<div class="post-meta">
-												<span class="mr-2">March 15, 2018 </span>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li>
-									<a href="">
-										<img src="{{ asset('assets/images/img_2_sq.jpg') }}" alt="Image placeholder" class="me-4 rounded">
-										<div class="text">
-											<h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-											<div class="post-meta">
-												<span class="mr-2">March 15, 2018 </span>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li>
-									<a href="">
-										<img src="{{ asset('assets/images/img_3_sq.jpg') }}" alt="Image placeholder" class="me-4 rounded">
-										<div class="text">
-											<h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-											<div class="post-meta">
-												<span class="mr-2">March 15, 2018 </span>
-											</div>
-										</div>
-									</a>
-								</li>
+								@foreach ($recentPosts as $post)
+                                    <li>
+                                        <a href="{{ route('posts.single', $post->id) }}">
+                                            <img src="{{asset('assets/images/'. $post->image . '')}}" alt="Image placeholder" class="me-4 rounded">
+                                            <div class="text">
+                                                <h4>{{ Str::words($post->title, 20, ' ...') }}</h4>
+                                                <div class="post-meta">
+                                                    <span class="mr-2">{{ \Carbon\Carbon::parse($post->created_at)->format('d M Y H:i') }}</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endforeach
 							</ul>
 						</div>
-
-
-					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
-			</div> <!-- /.row -->
+					</div>
+				</div>
+			</div>
 
 			<div class="row mt-5">
 				<div class="col-12 text-center">
-          <!-- 
-              **==========
-              NOTE: 
-              Please don't remove this copyright link unless you buy the license here https://untree.co/license/  
-              **==========
-            -->
 
-            <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a>  Distributed by <a href="https://themewagon.com">ThemeWagon</a> <!-- License information: https://untree.co/license/ -->
+            <p>Copyright &copy;<script>
+                document.write(new Date().getFullYear());</script>
+                . All Rights Reserved. &mdash; Designed with love by 
+                <a href="https://untree.co">Untree.co</a>  Distributed by 
+                <a href="https://themewagon.com">ThemeWagon</a> 
+                <!-- License information: https://untree.co/license/ -->
             </p>
           </div>
         </div>
-      </div> <!-- /.container -->
-    </footer> <!-- /.site-footer -->
+      </div>
+    </footer>
 
     <!-- Preloader -->
     <div id="overlayer"></div>

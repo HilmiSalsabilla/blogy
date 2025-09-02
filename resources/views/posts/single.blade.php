@@ -62,16 +62,19 @@
 
                     <br><br>
 
-                    @if(Session::has('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-message">
-                            {{ Session::get('success') }}
-                        </div>
-                    @endif
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flash-message">
-                            {{ Session::get('error') }}
-                        </div>
-                    @endif
+                    {{-- Flash Message --}}
+                    <div class="container-fluid">
+                        @if(Session::has('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-message">
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
+                        @if(Session::has('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flash-message">
+                                {{ Session::get('error') }}
+                            </div>
+                        @endif
+                    </div>
 
                     {{-- Comments --}}
                     <div class="pt-5 comment-wrap">
@@ -130,7 +133,7 @@
                                 <h2>{{ $user->name }}</h2>
                                 <p class="mb-4">{{ $user->bio }}</p>
                                 <p>
-                                    <a href="#" class="btn btn-primary btn-sm rounded px-3 py-2">Read my bio</a>
+                                    <a href="{{ route('users.profile', Auth::user()->id) }}" class="btn btn-primary btn-sm rounded px-3 py-2">Read my bio</a>
                                 </p>
                             </div>
                         </div>

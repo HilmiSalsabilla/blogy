@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -122,8 +123,8 @@ class PostsController extends Controller
     public function storePost(Request $request) {
         $validated = $request->validate([
             'title'       => 'required|string|max:255',
-            'category'    => 'required|string|max:100',
-            'description' => 'required|string|max:5000',
+            'category'    => 'required|string',
+            'description' => 'required|string',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ]);
 
@@ -175,8 +176,8 @@ class PostsController extends Controller
 
         $validated = $request->validate([
             'title'       => 'required|string|max:255',
-            'description' => 'required|string|max:5000',
-            'category'    => 'required|string|max:100',
+            'description' => 'required|string',
+            'category'    => 'required|string',
         ]);
 
         if (auth()->id() !== $post->user_id) {

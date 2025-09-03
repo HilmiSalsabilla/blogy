@@ -35,6 +35,7 @@ Route::get('/about', [PostsController::class, 'about'])->name('pages.about');
 Route::prefix('posts')->group(function () {
     Route::get('/index', [PostsController::class, 'index'])->name('posts.index');
     Route::get('/single/{id}', [PostsController::class, 'single'])->name('posts.single');
+    Route::get('/search', [PostsController::class, 'search'])->name('posts.search');
 
     Route::middleware(['auth'])->group(function () {
         Route::post('/comment-store', [PostsController::class, 'storeComment'])->name('posts.comment.store');
@@ -51,8 +52,11 @@ Route::prefix('categories')->group(function () {
     Route::get('/category/{name}', [CategoriesController::class, 'category'])->name('category.single');
 });
 
-Route::prefix('users')->middleware(['auth'])->group(function () {
-    Route::get('/edit/{id}', [UsersController::class, 'editProfile'])->name('users.edit');
-    Route::post('/update/{id}', [UsersController::class, 'saveProfile'])->name('users.save');
+Route::prefix('users')->group(function () {
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('users.profile');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/edit/{id}', [UsersController::class, 'editProfile'])->name('users.edit');
+        Route::post('/update/{id}', [UsersController::class, 'saveProfile'])->name('users.save');
+    });
 });

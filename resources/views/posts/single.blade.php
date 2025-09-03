@@ -37,7 +37,7 @@
                     <div class="pt-4 d-flex justify-content-between align-items-center border-top mt-4 pt-3">
                         <p class="mb-0">
                             <strong>Category:</strong> 
-                            <a href="#" class="text-decoration-none">{{ $single->category }}</a>
+                            <a href="{{ route('category.single', $single->category) }}" class="text-decoration-none">{{ $single->category }}</a>
                         </p>
 
                         @auth
@@ -133,7 +133,7 @@
                                 <h2>{{ $user->name }}</h2>
                                 <p class="mb-4">{{ $user->bio }}</p>
                                 <p>
-                                    <a href="{{ route('users.profile', Auth::user()->id) }}" class="btn btn-primary btn-sm rounded px-3 py-2">Read my bio</a>
+                                    <a href="{{ route('users.profile', $user->id) }}" class="btn btn-primary btn-sm rounded px-3 py-2">Read my bio</a>
                                 </p>
                             </div>
                         </div>

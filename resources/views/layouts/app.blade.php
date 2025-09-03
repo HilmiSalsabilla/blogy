@@ -51,8 +51,8 @@
                                 </a>
                             </div>
                             <div class="col-8 text-center">
-                                <form action="#" class="search-form d-inline-block d-lg-none">
-                                    <input type="text" class="form-control" placeholder="Search...">
+                                <form action="{{ route('posts.search') }}" method="GET" class="search-form d-inline-block d-lg-none">
+                                    <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request('search') }}">
                                     <span class="bi-search"></span>
                                 </form>
 
@@ -107,8 +107,8 @@
                                 <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
                                     <span></span>
                                 </a>
-                                <form action="#" class="search-form d-none d-lg-inline-block">
-                                    <input type="text" class="form-control" placeholder="Search...">
+                                <form action="{{ route('posts.search') }}" method="GET" class="search-form d-none d-lg-inline-block">
+                                    <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request('search') }}">
                                     <span class="bi-search"></span>
                                 </form>
                             </div>

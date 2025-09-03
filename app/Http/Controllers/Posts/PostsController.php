@@ -67,6 +67,17 @@ class PostsController extends Controller
             ));
     }
 
+    public function search(Request $request) {
+        $search = $request->get('search');
+
+        $results = PostModel::where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                    
+        return view('posts.search', compact('search', 'results'));
+    }
+
     public function single($id) {
         $single = PostModel::findorFail($id);
         $user = User::findorFail($single->user_id);
